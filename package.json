@@ -1,5 +1,5 @@
 {
-  "name": "hapi-swing",
+  "name": "hapi-swim",
   "version": "0.0.1",
   "description": "Hapijs server using a swim protocol to connect to other micro-services nodes",
   "main": "index.js",
@@ -14,6 +14,7 @@
   "author": "Mircea Alexandru <mircea.alexandru@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "call": "^5.0.1",
     "dgram": "^1.0.1",
     "hapi": "^17.2.0",
     "hapi-pino": "^4.0.3",
