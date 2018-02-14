@@ -1,4 +1,5 @@
-const SwimRouter = require('./lib/router')
+const Request = require('./lib/request')
+const Router = require('./lib/router')
 const HapiPino = require('hapi-pino')
 const Swim = require('./lib/swim')
 const Server = require('./lib/server')
@@ -21,11 +22,9 @@ async function start (options, plugins = []) {
   server.route(Health)
 
   await Swim.start(options.swim, server)
-  const swimRouter = SwimRouter(Swim.instance())
 
-  server.decorate('request', 'swim', Swim.instance())
-  server.decorate('request', 'swimRouter', swimRouter)
-
+  server.decorate('request', 'swim', Swim)
+  server.decorate('request', 'serviceConnection', Request(Router(Swim, server.logger())))
 }
 
 module.exports = {
