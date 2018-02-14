@@ -1,8 +1,8 @@
-var dgram = require('dgram');
+const dgram = require('dgram');
 
 async function getAvailablePort (startingAt) {
   function getNextAvailablePort (currentPort, cb) {
-    var server = dgram.createSocket('udp4');
+    const server = dgram.createSocket('udp4');
     server.bind(currentPort);
 
     server.on('listening', () => {
@@ -11,7 +11,8 @@ async function getAvailablePort (startingAt) {
     });
 
     server.on('error', () => {
-      return getNextAvailablePort(++currentPort, cb)
+      currentPort += 1
+      return getNextAvailablePort(currentPort, cb)
     });
   }
 
@@ -20,7 +21,7 @@ async function getAvailablePort (startingAt) {
   })
 }
 
-async function getConfig() {
+async function getConfig () {
   return {
     server: {
       port: 0,
@@ -38,7 +39,7 @@ async function getConfig() {
       pingReqTimeout: 60, // optional
       pingReqGroupSize: 3, // optional
       suspectTimeout: 60, // optional
-      udp: {maxDgramSize: 512}, // optional
+      udp: { maxDgramSize: 512 }, // optional
       preferCurrentMeta: true // optional
     }
   }
