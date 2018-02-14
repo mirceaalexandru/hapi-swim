@@ -21,9 +21,10 @@ async function start (options, plugins = []) {
   server.route(Health)
 
   await Swim.start(options.swim, server)
+  const swimRouter = SwimRouter(Swim.instance())
 
   server.decorate('request', 'swim', Swim.instance())
-  server.decorate('request', 'swimRouter', SwimRouter(Swim.instance()))
+  server.decorate('request', 'swimRouter', swimRouter)
 
 }
 
