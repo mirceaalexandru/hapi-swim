@@ -16,7 +16,13 @@ const internals = {}
 
 async function start (options, plugins = []) {
   const defaultPlugins = [
-    HapiPino,
+    {
+      register: HapiPino,
+      options: {
+        prettyPrint: process.env.NODE_ENV !== 'production',
+        level: 'debug'
+      }
+    },
     HealthPlugin
   ]
 
@@ -28,6 +34,7 @@ async function start (options, plugins = []) {
   await Swim.start(config, server)
 
   server.decorate('server', 'swim', Swim)
+  server.app.config = config
   server.decorate(
     'server', 'serviceConnection',
     Request(
