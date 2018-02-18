@@ -16,25 +16,18 @@ const internals = {}
 
 async function start (options, plugins = []) {
   const defaultPlugins = [
-    {
-      register: HapiPino,
-      options: {
-        prettyPrint: process.env.NODE_ENV !== 'production',
-        level: 'debug'
-      }
-    },
+    HapiPino,
     HealthPlugin
   ]
 
   const config = Hoek.applyToDefaults(await Defaults(), options)
 
   const registerPlugins = defaultPlugins.concat(plugins)
-  const server = await Server.start(config.server, registerPlugins)
+  const server = await Server.start(config, registerPlugins)
 
   await Swim.start(config, server)
 
   server.decorate('server', 'swim', Swim)
-  server.app.config = config
   server.decorate(
     'server', 'serviceConnection',
     Request(
