@@ -31,6 +31,7 @@ async function start (options, plugins = []) {
   server.decorate(
     'server', 'serviceConnection',
     Request(
+      config.service,
       Router(Swim, server.logger()),
       server.logger()
     )
