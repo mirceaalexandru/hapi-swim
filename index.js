@@ -28,7 +28,7 @@ async function start (options, plugins = []) {
 
   const config = Hoek.applyToDefaults(await Defaults(), options)
 
-  const registerPlugins = plugins.concat(defaultPlugins)
+  const registerPlugins = defaultPlugins.concat(plugins)
   const server = await Server.start(config.server, registerPlugins)
 
   await Swim.start(config, server)
