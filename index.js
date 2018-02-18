@@ -3,10 +3,12 @@ const Router = require('./lib/router')
 const HapiPino = require('hapi-pino')
 const Swim = require('./lib/swim')
 const Server = require('./lib/server')
-const Health = require('./lib/routes/health')
+const HealthPlugin = require('./lib/plugin/health')
+const Hoek = require('hoek')
+const Defaults = require('./config/default')
 
 process.on('unhandledRejection', err => {
-  console.log('unhandledRejection', { err, message: err.message });// eslint-disable-line
+  console.log({ err, message: err.message }, 'unhandledRejection');// eslint-disable-line
   throw err
 });
 
@@ -14,17 +16,27 @@ const internals = {}
 
 async function start (options, plugins = []) {
   const defaultPlugins = [
-    HapiPino
+    HapiPino,
+    HealthPlugin
   ]
 
+  const config = Hoek.applyToDefaults(await Defaults(), options)
+
   const registerPlugins = plugins.concat(defaultPlugins)
-  const server = await Server.start(options.server, registerPlugins)
-  server.route(Health)
+  const server = await Server.start(config.server, registerPlugins)
 
-  await Swim.start(options.swim, server)
+  await Swim.start(config, server)
 
-  server.decorate('request', 'swim', Swim)
-  server.decorate('request', 'serviceConnection', Request(Router(Swim, server.logger())))
+  server.decorate('server', 'swim', Swim)
+  server.decorate(
+    'server', 'serviceConnection',
+    Request(
+      Router(Swim, server.logger()),
+      server.logger()
+    )
+  )
+
+  return server
 }
 
 module.exports = {

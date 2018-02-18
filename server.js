@@ -1,9 +1,17 @@
-const server = require('./index')
-const Config = require('./config/default')
+const Server = require('./index')
 
 async function start () {
-  const config = await Config()
-  await server.start(config)
+  const server = await Server.start({
+    server: {
+      serviceHost: '92.168.1.1'
+    }
+  })
+
+  await server.serviceConnection.sendRequest({
+    method: 'post',
+    path: '/audit',
+    payload: {}
+  })
 }
 
 start()

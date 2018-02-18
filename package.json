@@ -1,6 +1,6 @@
 {
   "name": "hapi-swim",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Hapijs server using a swim protocol to connect to other micro-services",
   "main": "index.js",
   "directories": {
@@ -19,6 +19,7 @@
     "dgram": "^1.0.1",
     "hapi": "^17.2.0",
     "hapi-pino": "^4.0.3",
+    "hoek": "^5.0.3",
     "net": "^1.0.2",
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5",
