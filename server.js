@@ -24,6 +24,8 @@ async function start () {
       when: new Date(),
       where: 'here'
     }
+  }).catch(err => {
+    server.logger(err)
   })
 }
 

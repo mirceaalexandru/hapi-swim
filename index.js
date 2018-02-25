@@ -5,7 +5,7 @@ const Swim = require('./lib/swim')
 const Server = require('./lib/server')
 const HealthPlugin = require('./lib/plugin/health')
 const Hoek = require('hoek')
-const Defaults = require('./config/default')
+const Config = require('./config/index')
 
 process.on('unhandledRejection', err => {
   console.log({ err, message: err.message }, 'unhandledRejection');// eslint-disable-line
@@ -20,7 +20,8 @@ async function start (options, plugins = []) {
     HealthPlugin
   ]
 
-  const config = Hoek.applyToDefaults(await Defaults(), options)
+  const cfg = await Config()
+  const config = Hoek.applyToDefaults(cfg, options)
 
   const registerPlugins = defaultPlugins.concat(plugins)
   const server = await Server.start(config, registerPlugins)
