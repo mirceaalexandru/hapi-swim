@@ -8,8 +8,8 @@ const Hoek = require('hoek')
 const Config = require('./config/index')
 
 process.on('unhandledRejection', err => {
-  console.log({ err, message: err.message }, 'unhandledRejection');// eslint-disable-line
-  throw err
+  console.log({ err, message: err ? err.message : 'N/A'}, 'unhandledRejection');// eslint-disable-line
+  process.exit(1)
 });
 
 const internals = {}
