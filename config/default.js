@@ -41,7 +41,7 @@ async function getConfig () {
       pingReqTimeout: 60,
       pingReqGroupSize: 3,
       suspectTimeout: 60,
-      udp: { maxDgramSize: 512 },
+      udp: { maxDgramSize: 1024 },
       preferCurrentMeta: true
     }
   }
